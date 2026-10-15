@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, "/home/claude/noirxu-ig-assets/style")
 import noirxu_style as ns
 from noirxu_style import *
-OUT = sys.argv[1]; TOTAL = 6; SIDE = "金錢日誌　晚開始"; LIGHT = "#F3F0EA"
+OUT = sys.argv[1]; TOTAL = 6; SIDE = "MONEY　晚開始"; LIGHT = "#F2F2F2"
 
 def fv(n, a=0.06):
     m = (1 + a) ** (1 / 12) - 1
@@ -22,7 +22,7 @@ def rowsq(y, nhol, dark=False, sz=15):
     for c in range(30):
         cx = xl + c * step
         box = [(cx - sz / 2) * S, (y - sz / 2) * S, (cx + sz / 2) * S, (y + sz / 2) * S]
-        if c < nhol: ns.d.rectangle(box, outline=hexc("#E4A39C" if dark else VERM), width=int(2 * S))
+        if c < nhol: ns.d.rectangle(box, outline=hexc("#B8B8B8" if dark else VERM), width=int(2 * S))
         else: ns.d.rectangle(box, fill=hexc(LIGHT if dark else INK))
 
 def foot(dark=False, extra=None):
@@ -88,7 +88,7 @@ ttext(ML + w + 10, 470, "萬", font(SERIF_M, 70), LIGHT, 0)
 hline(ML, MR, 700, INDIGO_H, 1.2)
 ttext(ML, 740, f"比原本的 1 萬，多了 {round((B_['need']-1)*100)}%。", font(SERIF_M, 50), LIGHT, 5)
 ttext(ML, 830, f"總共投入 {B_['need']*B_['n']:.0f} 萬，", font(SANS_R, 32), INDIGO_L, 4)
-ttext(ML, 885, f"比 A 的 360 萬多出 {B_['need']*B_['n']-360:.0f} 萬。", font(SANS_R, 32), "#E4A39C", 4)
+ttext(ML, 885, f"比 A 的 360 萬多出 {B_['need']*B_['n']-360:.0f} 萬。", font(SANS_R, 32), "#B8B8B8", 4)
 foot(True)
 save(OUT, "s4.png")
 

@@ -18,7 +18,7 @@ legs = [("第 1 個 100 萬", r1), ("100 → 200 萬", r2 - r1), ("200 → 300 �
 print(legs)
 
 new_slide(PAPER)
-frame(2, label="金錢日誌 No.02", side="金錢日誌　里程碑")
+frame(2, label="MONEY No.02", side="MONEY　里程碑")
 ttext(ML, 170, "里程碑", font(SANS_R, 26), VERM, 6)
 ttext(ML, 225, "每多一個 100 萬，", font(SERIF_L, 80), INK, 6)
 ttext(ML, 325, "都更快。", font(SERIF_M, 80), INK, 6)

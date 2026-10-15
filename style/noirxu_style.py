@@ -23,10 +23,11 @@ SERIF_SB = FD + "NotoSerifCJK-SemiBold.ttc"
 SANS_L = FD + "NotoSansCJK-Light.ttc"
 SANS_R = FD + "NotoSansCJK-Regular.ttc"
 
-PAPER, INK, GRAY, HAIR = "#F6F4EF", "#1B1B1A", "#74726C", "#D5D1C8"
-VERM, VERM_T = "#B7322A", "#F0DCD6"
-INDIGO, INDIGO_L, INDIGO_H = "#16233B", "#AEB8CC", "#3A4A68"
-PAPER2 = "#ECE9E2"         # 淺灰暖底（清單頁用）
+PAPER, INK, GRAY, HAIR = "#F3F3F3", "#202020", "#6E6E6E", "#D4D4D4"
+VERM, VERM_T = "#000000", "#E3E3E3"   # v2：不再有彩色強調，VERM＝純黑（重點）
+INDIGO, INDIGO_L, INDIGO_H = "#0E0E0E", "#A6A6A6", "#3B3B3B"   # v2：深色頁＝黑
+PAPER2 = "#E8E8E8"         # 淺灰底（清單頁用）
+BAR = "#B9B9B9"            # 非重點長條＝灰，重點＝黑
 ML, MR = 118, W - 90       # 左右邊界
 
 im = d = None
@@ -104,27 +105,24 @@ def vline(x, y0, y1, color=HAIR, w=1.5):
 
 
 def rect(x0, y0, x1, y1, fill=None, outline=None, w=0):
+    if fill == INK:            # v2：墨色長條一律畫成灰，重點（VERM=黑）才是黑
+        fill = BAR
     d.rectangle([x0 * S, y0 * S, x1 * S, y1 * S], fill=hexc(fill) if fill else None,
                 outline=hexc(outline) if outline else None, width=int(w * S))
 
 
-def seal(cx, cy, size, ch="帳", angle=-3):
-    """朱紅印章，品牌記號。封面與收尾頁使用，一頁最多一個。"""
-    pad = 10
-    layer = Image.new("RGBA", (int((size + pad * 2) * S), int((size + pad * 2) * S)), (0, 0, 0, 0))
-    ld = ImageDraw.Draw(layer)
-    ld.rounded_rectangle([pad * S, pad * S, (pad + size) * S, (pad + size) * S], radius=5 * S, fill=hexc(VERM))
-    ld.rounded_rectangle([(pad + 6) * S, (pad + 6) * S, (pad + size - 6) * S, (pad + size - 6) * S], radius=3 * S,
-                         outline=hexc("#F3E4E0"), width=int(2 * S))
-    ld.text(((pad + size / 2) * S, (pad + size / 2) * S), ch, font=font(SERIF_SB, size * 0.56),
-            fill=hexc("#F8EDEA"), anchor="mm")
-    layer = layer.rotate(angle, expand=True, resample=Image.BICUBIC)
-    im.paste(layer, (int(cx * S - layer.width / 2), int(cy * S - layer.height / 2)), layer)
+def seal(cx, cy, size, ch="", angle=0):
+    """v2：不用印章，改為極簡 NOIRXU 字標（細框＋字距）。cx 為中心，右緣不超過 MR。"""
+    w, h = size * 1.9, size * 0.5
+    cx = min(cx, MR - w / 2)
+    col = "#F2F2F2" if DARK else INK
+    d.rectangle([(cx - w / 2) * S, (cy - h / 2) * S, (cx + w / 2) * S, (cy + h / 2) * S], outline=hexc(col), width=int(1.6 * S))
+    f = font(SANS_R, size * 0.17)
+    ttext(cx, cy - size * 0.1, "NOIRXU", f, col, 6, "c")
 
-
-def frame(n, total=None, label=None, side="金錢日誌　停扣成本"):
+def frame(n, total=None, label=None, side="MONEY　停扣成本"):
     """固定外框：頂部 NOIRXU + 頁碼 + 細線，左側直書標籤。"""
-    ink = "#F3F0EA" if DARK else INK
+    ink = "#F2F2F2" if DARK else INK
     gray = INDIGO_L if DARK else GRAY
     hair = INDIGO_H if DARK else INK
     ttext(ML, 56, "NOIRXU", font(SANS_R, 22), ink, 7)
@@ -133,11 +131,12 @@ def frame(n, total=None, label=None, side="金錢日誌　停扣成本"):
     hline(ML, MR, 100, hair, 1.2)
     rect(44, 150, 52, 158, fill=VERM)
     vtext(48, 180, side, font(SANS_L, 21), gray, 9)
+    ttext(MR, 1310, "noirxu.com", font(SANS_L, 20), gray, 3, "r")
 
 
 def grain(img):
     noise = Image.effect_noise(img.size, 10).convert("RGB")
-    return Image.blend(img, ImageChops.multiply(img, noise.point(lambda v: 240 + v // 24)), 0.22)
+    return Image.blend(img, ImageChops.multiply(img, noise.point(lambda v: 240 + v // 24)), 0.12)
 
 
 def save(outdir, name):

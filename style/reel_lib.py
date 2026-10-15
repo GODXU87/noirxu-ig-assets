@@ -8,7 +8,7 @@ from noirxu_style import (PAPER, INK, GRAY, HAIR, VERM, INDIGO, INDIGO_L, INDIGO
 from PIL import Image
 
 ns.H = 1920
-LIGHT, VERM_L = "#F3F0EA", "#E4A39C"
+LIGHT, VERM_L = "#F2F2F2", "#B8B8B8"
 FPS, FADE = 30, 0.3
 
 def done():

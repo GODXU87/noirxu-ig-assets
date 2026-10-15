@@ -6,8 +6,8 @@ from noirxu_style import *
 
 OUT = sys.argv[1]
 TOTAL = 7
-SIDE = "金錢日誌　停的位置"
-LIGHT = "#F3F0EA"
+SIDE = "MONEY　停的位置"
+LIGHT = "#F2F2F2"
 full = compound_series()[-1]
 cases = []
 for name, win, hol, rest in (("A", (336, 360), (28, 29), "那 24 筆本來只能複利 0–2 年"), ("B", (120, 144), (10, 11), "那 24 筆本來能複利 18–20 年"),
@@ -27,7 +27,7 @@ def rowsq(y, hol, dark=False, sz=15):
         cx = xl + c * step
         box = [(cx - sz / 2) * S, (y - sz / 2) * S, (cx + sz / 2) * S, (y + sz / 2) * S]
         if c in hol:
-            d_ = ns.d; d_.rectangle(box, outline=hexc("#E4A39C" if dark else VERM), width=int(2 * S))
+            d_ = ns.d; d_.rectangle(box, outline=hexc("#B8B8B8" if dark else VERM), width=int(2 * S))
         else:
             ns.d.rectangle(box, fill=hexc(LIGHT if dark else INK))
 
@@ -73,7 +73,7 @@ for n, c in zip((3, 4, 5), cases):
     new_slide(INDIGO if dark else PAPER, dark=dark); frame(n, TOTAL, side=SIDE)
     ink = LIGHT if dark else INK
     gray = INDIGO_L if dark else GRAY
-    acc = "#E4A39C" if dark else VERM
+    acc = "#B8B8B8" if dark else VERM
     ttext(ML, 170, c["name"], font(SERIF_L, 60), acc, 0)
     ttext(ML + 76, 188, f"{LAB[c['name']]}（{YRS[c['name']]}）", font(SANS_R, 30), ink, 4)
     rowsq(300, c["hol"], dark=dark, sz=17)

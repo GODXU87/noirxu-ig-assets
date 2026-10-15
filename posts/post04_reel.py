@@ -9,7 +9,7 @@ from PIL import Image
 ns.H = 1920            # 9:16
 OUT = sys.argv[1]
 FPS, FADE = 30, 0.3
-LIGHT = "#F3F0EA"
+LIGHT = "#F2F2F2"
 
 # ---- 數字全部由程式計算 ----
 a = ns.compound_series()[-1]
@@ -23,7 +23,7 @@ def done():
 
 def tag(dark=False):
     ns.ttext(ML, 300, "NOIRXU", font(SANS_R, 26), LIGHT if dark else INK, 8)
-    ns.ttext(MR, 300, "金錢日誌　停扣成本", font(SANS_L, 24), INDIGO_L if dark else GRAY, 4, "r")
+    ns.ttext(MR, 300, "MONEY　停扣成本", font(SANS_L, 24), INDIGO_L if dark else GRAY, 4, "r")
     ns.hline(ML, MR, 345, INDIGO_H if dark else INK, 1.2)
 
 def s1():
@@ -57,7 +57,7 @@ def s2(k, label=False):
             n += 1
     if label:
         y = 1250
-        ns.rect(ML, y + 8, ML + 20, y + 28, fill=INK)
+        ns.d.rectangle([ML * ns.S, (y + 8) * ns.S, (ML + 20) * ns.S, (y + 28) * ns.S], fill=ns.hexc(INK))
         ns.ttext(ML + 40, y, "有投入", font(SANS_R, 34), INK, 4)
         ns.d.rectangle([(ML + 300) * ns.S, (y + 8) * ns.S, (ML + 320) * ns.S, (y + 28) * ns.S],
                        outline=ns.hexc(VERM), width=int(2.4 * ns.S))
@@ -83,7 +83,7 @@ def s4():
     ns.ttext(ML + w + 8, 860, "萬", font(SERIF_M, 80), LIGHT, 0)
     ns.hline(ML, MR, 1130, INDIGO_H, 1.2)
     ns.ttext(ML, 1180, "少投的本金，只有 24 萬。", font(SERIF_M, 52), LIGHT, 5)
-    ns.ttext(ML, 1260, f"其餘 {C} 萬，是複利。", font(SERIF_M, 52), "#E4A39C", 5)
+    ns.ttext(ML, 1260, f"其餘 {C} 萬，是複利。", font(SERIF_M, 52), "#B8B8B8", 5)
     return done()
 
 def s5():

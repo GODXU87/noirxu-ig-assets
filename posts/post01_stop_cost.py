@@ -32,9 +32,9 @@ def font(path, size):
 def hexc(h):
     h = h.lstrip("#"); return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
 
-PAPER, INK, GRAY, HAIR = "#F6F4EF", "#1B1B1A", "#74726C", "#D5D1C8"
-VERM, VERM_T = "#B7322A", "#F0DCD6"
-INDIGO, INDIGO_L = "#16233B", "#AEB8CC"
+PAPER, INK, GRAY, HAIR = "#F3F3F3", "#202020", "#6E6E6E", "#D4D4D4"
+VERM, VERM_T = "#000000", "#E3E3E3"
+INDIGO, INDIGO_L = "#0E0E0E", "#A6A6A6"
 ML, MR = 118, W - 90
 
 im = d = None
@@ -73,31 +73,28 @@ def hline(x0, x1, y, color=HAIR, w=1.5):
 def vline(x, y0, y1, color=HAIR, w=1.5):
     d.line(P([(x, y0), (x, y1)]), fill=hexc(color), width=max(1, int(w * S)))
 
-def seal(cx, cy, size, ch="帳", angle=-3):
-    pad = 10
-    layer = Image.new("RGBA", (int((size + pad * 2) * S), int((size + pad * 2) * S)), (0, 0, 0, 0))
-    ld = ImageDraw.Draw(layer)
-    ld.rounded_rectangle([pad * S, pad * S, (pad + size) * S, (pad + size) * S], radius=5 * S, fill=hexc(VERM))
-    ld.rounded_rectangle([(pad + 6) * S, (pad + 6) * S, (pad + size - 6) * S, (pad + size - 6) * S], radius=3 * S,
-                         outline=hexc("#F3E4E0"), width=int(2 * S))
-    ld.text(((pad + size / 2) * S, (pad + size / 2) * S), ch, font=font(SERIF_SB, size * 0.56), fill=hexc("#F8EDEA"), anchor="mm")
-    layer = layer.rotate(angle, expand=True, resample=Image.BICUBIC)
-    im.paste(layer, (int(cx * S - layer.width / 2), int(cy * S - layer.height / 2)), layer)
+def seal(cx, cy, size, ch="", angle=0):
+    w, h = size * 1.9, size * 0.5
+    cx = min(cx, MR - w / 2)
+    col = "#F2F2F2" if DARK else INK
+    d.rectangle([(cx - w / 2) * S, (cy - h / 2) * S, (cx + w / 2) * S, (cy + h / 2) * S], outline=hexc(col), width=int(1.6 * S))
+    ttext(cx, cy - size * 0.1, "NOIRXU", font(SANS_R, size * 0.17), col, 6, "c")
 
 def frame(n):
-    ink = "#F3F0EA" if DARK else INK
+    ink = "#F2F2F2" if DARK else INK
     gray = INDIGO_L if DARK else GRAY
-    hair = "#3A4A68" if DARK else HAIR
+    hair = "#3B3B3B" if DARK else HAIR
     ttext(ML, 56, "NOIRXU", font(SANS_R, 22), ink, 7)
     ttext(MR, 56, f"{n:02d} / {TOTAL:02d}", font(SANS_L, 22), gray, 4, "r")
     hline(ML, MR, 100, hair if DARK else INK, 1.2)
     # 左側直書
     d.rectangle([44 * S, 150 * S, 52 * S, 158 * S], fill=hexc(VERM))
-    vtext(48, 180, "金錢日誌　停扣成本", font(SANS_L, 21), gray, 9)
+    vtext(48, 180, "MONEY　停扣成本", font(SANS_L, 21), gray, 9)
+    ttext(MR, 1310, "noirxu.com", font(SANS_L, 20), gray, 3, "r")
 
 def grain(img):
     noise = Image.effect_noise(img.size, 10).convert("RGB")
-    return Image.blend(img, ImageChops.multiply(img, noise.point(lambda v: 240 + v // 24)), 0.22)
+    return Image.blend(img, ImageChops.multiply(img, noise.point(lambda v: 240 + v // 24)), 0.12)
 
 def save(n):
     grain(im).resize((W, H), Image.LANCZOS).save(os.path.join(OUT, f"b{n}.png"))
@@ -190,20 +187,20 @@ save(4)
 # ================= 5 差距（深藍滿版） =================
 new_slide(INDIGO, True); frame(5)
 ttext(ML, 175, "兩者相差", font(SANS_L, 32), INDIGO_L, 8)
-w = ttext(ML - 6, 215, "72.5", font(SERIF_XL, 330), "#F3F0EA", 2)
-ttext(ML + w + 14, 440, "萬", font(SERIF_L, 100), "#F3F0EA", 0)
-hline(ML, MR, 740, "#3A4A68", 1.5)
+w = ttext(ML - 6, 215, "72.5", font(SERIF_XL, 330), "#F2F2F2", 2)
+ttext(ML + w + 14, 440, "萬", font(SERIF_L, 100), "#F2F2F2", 0)
+hline(ML, MR, 740, "#3B3B3B", 1.5)
 r_big = 168
 r_small = r_big / math.sqrt(72.5 / 24)
 cy = 940
 cxs, cxb = ML + 120, ML + 560
-d.ellipse([(cxs - r_small) * S, (cy - r_small) * S, (cxs + r_small) * S, (cy + r_small) * S], outline=hexc("#F3F0EA"), width=int(2.5 * S))
-d.ellipse([(cxb - r_big) * S, (cy - r_big) * S, (cxb + r_big) * S, (cy + r_big) * S], outline=hexc("#F3F0EA"), width=int(2.5 * S))
+d.ellipse([(cxs - r_small) * S, (cy - r_small) * S, (cxs + r_small) * S, (cy + r_small) * S], outline=hexc("#F2F2F2"), width=int(2.5 * S))
+d.ellipse([(cxb - r_big) * S, (cy - r_big) * S, (cxb + r_big) * S, (cy + r_big) * S], outline=hexc("#F2F2F2"), width=int(2.5 * S))
 d.line(P([(cxs + r_small + 18, cy), (cxb - r_big - 18, cy)]), fill=hexc(INDIGO_L), width=int(1.5 * S))
 ttext(cxs, cy - 42, "少投", font(SANS_L, 26), INDIGO_L, 4, "c")
-ttext(cxs, cy - 8, "24 萬", font(SERIF_M, 42), "#F3F0EA", 1, "c")
+ttext(cxs, cy - 8, "24 萬", font(SERIF_M, 42), "#F2F2F2", 1, "c")
 ttext(cxb, cy - 52, "少賺", font(SANS_L, 28), INDIGO_L, 4, "c")
-ttext(cxb, cy - 14, "72.5 萬", font(SERIF_M, 56), "#F3F0EA", 1, "c")
+ttext(cxb, cy - 14, "72.5 萬", font(SERIF_M, 56), "#F2F2F2", 1, "c")
 ttext(ML, 1215, "圓的面積與金額成比例。少投的錢，被放大約 3 倍。", font(SANS_L, 26), INDIGO_L, 2)
 save(5)
 
@@ -233,7 +230,7 @@ for yr in (0, 10, 20, 30):
     ttext(px(yr * 12), cy1 + 16, f"{yr}", font(SANS_L, 22), GRAY, 0, "c")
 ttext(cx1 + 14, cy1 + 16, "年", font(SANS_L, 22), GRAY, 0)
 d.line(P([(px(i), py(full[i])) for i in range(0, 361, 2)]), fill=hexc(INK), width=int(3.5 * S), joint="curve")
-d.line(P([(px(i), py(stop[i])) for i in range(0, 361, 2)]), fill=hexc(VERM), width=int(3.5 * S), joint="curve")
+d.line(P([(px(i), py(stop[i])) for i in range(0, 361, 2)]), fill=hexc("#8E8E8E"), width=int(3.5 * S), joint="curve")
 # 終端標註
 ex = cx1 + 22
 ttext(ex, py(full[360]) - 30, "974.5", font(SERIF_M, 32), INK, 1)
@@ -247,7 +244,7 @@ ttext(ML, 1245, "單位：萬　每月 1 萬　年化 6%　情境試算，非投
 save(6)
 
 # ================= 7 清單 =================
-new_slide("#ECE9E2"); frame(7)
+new_slide("#E8E8E8"); frame(7)
 ttext(ML, 185, "暫停前的", font(SANS_L, 32), GRAY, 8)
 ttext(ML, 235, "三個問題", font(SERIF_L, 112), INK, 12)
 qs = ["能不能只降額，不全停？", "要停幾個月？先寫下恢復日期。", "三個月後，這個原因還在嗎？"]

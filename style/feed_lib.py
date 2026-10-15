@@ -2,7 +2,7 @@
 import noirxu_style as ns
 from noirxu_style import *
 
-LIGHT, VERM_L = "#F3F0EA", "#E4A39C"
+LIGHT, VERM_L = "#F2F2F2", "#B8B8B8"
 
 def fit(x, y, s, fp, size, color, track=0, maxw=None, anchor="l"):
     maxw = maxw or (MR - x)

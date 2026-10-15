@@ -20,7 +20,7 @@ def months_to(t, a=0.06):
 # ---------- R1 通膨 ----------
 infl = [(f"{y} 年後" if y else "現在", "購買力", 100 / 1.02 ** y) for y in (0, 10, 20, 30)]
 print("R1", [round(v, 1) for _, _, v in infl])
-S = "金錢日誌　通膨"
+S = "MONEY　通膨"
 build([
     (text_scene(S, [("放在抽屜的 100 萬，", SERIF_M, 64, INK, 6, 0), ("30 年後，", SERIF_L, 120, INK, 6, 110),
                     ([("還值多少", INK), ("？", VERM)], SERIF_M, 70, INK, 6, 190)], seal=True), 2.8),
@@ -35,7 +35,7 @@ build([
 # ---------- R2 小額加碼 ----------
 f10, f11, f12 = fv(360, pmt=1.0), fv(360, pmt=1.1), fv(360, pmt=1.2)
 d = f11 - f10; print("R2", round(f10, 1), round(f11, 1), round(f12, 1), round(d, 1), round(d - 36, 1))
-S = "金錢日誌　小額加碼"
+S = "MONEY　小額加碼"
 build([
     (text_scene(S, [("每月多存 1,000 元，", SERIF_M, 64, INK, 6, 0), ("30 年後，", SERIF_L, 120, INK, 6, 110),
                     ([("會差多少", INK), ("？", VERM)], SERIF_M, 70, INK, 6, 190)], seal=True), 2.8),
@@ -51,7 +51,7 @@ build([
 m1, m2, m3 = months_to(100), months_to(200), months_to(300)
 legs = [("第 1 個 100 萬", f"{m1/12:.1f} 年", m1), ("100 → 200 萬", f"{(m2-m1)/12:.1f} 年", m2 - m1), ("200 → 300 萬", f"{(m3-m2)/12:.1f} 年", m3 - m2)]
 print("R3", legs)
-S = "金錢日誌　里程碑"
+S = "MONEY　里程碑"
 build([
     (text_scene(S, [("每月存 1 萬，", SERIF_M, 64, INK, 6, 0), ("第 1 個 100 萬，", SERIF_L, 100, INK, 6, 110),
                     ([("要存幾個月", INK), ("？", VERM)], SERIF_M, 70, INK, 6, 170)], seal=True), 2.8),
@@ -65,7 +65,7 @@ build([
 # ---------- R4 每年調高月投 ----------
 fr = fv_raise(); dr = fr - f10
 print("R4", round(f10, 1), round(fr, 1), round(dr, 1))
-S = "金錢日誌　每年調高"
+S = "MONEY　每年調高"
 build([
     (text_scene(S, [("每年把月投，", SERIF_M, 64, INK, 6, 0), ("調高 3%，", SERIF_L, 120, INK, 6, 110),
                     ([("30 年差多少", INK), ("？", VERM)], SERIF_M, 70, INK, 6, 190)], seal=True), 2.8),

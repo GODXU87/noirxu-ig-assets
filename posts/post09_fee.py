@@ -9,7 +9,7 @@ def fv(n, a):
     return ((1 + m) ** n - 1) / m
 full = fv(360, 0.06); r1 = fv(360, 0.05); r2 = fv(360, 0.04)
 print(round(full, 1), round(r1, 1), round(r2, 1), round(full - r1, 1), round((full - r1) / full * 100, 1))
-new_slide(PAPER); frame(4, label="金錢日誌 No.04", side="金錢日誌　費用")
+new_slide(PAPER); frame(4, label="MONEY No.04", side="MONEY　費用")
 ttext(ML, 170, "每年 1% 的費用", font(SANS_R, 26), VERM, 6)
 ttext(ML, 225, "30 年後，", font(SERIF_L, 74), INK, 5)
 ttext(ML, 325, "從終點吃掉多少？", font(SERIF_M, 74), INK, 5)

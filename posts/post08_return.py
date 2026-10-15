@@ -9,7 +9,7 @@ def fv(n, a):
     return ((1 + m) ** n - 1) / m
 rows = [(a, fv(360, a)) for a in (0.04, 0.06, 0.08)]
 print([(a, round(v, 1)) for a, v in rows], round(rows[2][1] - rows[0][1], 1))
-new_slide(PAPER); frame(3, label="金錢日誌 No.03", side="金錢日誌　報酬差")
+new_slide(PAPER); frame(3, label="MONEY No.03", side="MONEY　報酬差")
 ttext(ML, 170, "每月 1 萬，30 年", font(SANS_R, 26), VERM, 6)
 ttext(ML, 225, "年化差 2 個百分點，", font(SERIF_L, 74), INK, 5)
 ttext(ML, 325, "終點差多遠？", font(SERIF_M, 74), INK, 5)
