@@ -1,5 +1,5 @@
-"""NOIRXU Reels 配樂 v4：明亮流行律動（原創，非任何現有歌曲）——
-馬林巴 riff + 彈性貝斯 + 切分鼓組，96 BPM，C-G-Am-F。python3 -I reel_music.py IN_DIR OUT_DIR"""
+"""NOIRXU Reels 配樂 v5：熱帶流行律動（原創旋律，非任何現有歌曲）——
+馬林巴 riff + 彈性貝斯 + 切分乾鼓，96 BPM，Em-C-G-D。python3 -I reel_music.py IN_DIR OUT_DIR"""
 import sys, os, subprocess, numpy as np
 from scipy.io import wavfile
 from scipy.signal import butter, lfilter, fftconvolve
@@ -33,18 +33,18 @@ def put(buf, s, t0, g):
     i = int(t0 * SR)
     if i >= len(buf): return
     e = min(len(buf), i + len(s)); buf[i:e] += s[:e - i] * g
-PROG = [(48, [60, 64, 67], [72, 76, 79, 84]), (43, [59, 62, 67], [67, 71, 74, 79]),
-        (45, [57, 60, 64], [69, 72, 76, 81]), (41, [57, 60, 65], [69, 72, 77, 81])]
-RH = [0, 3, 6, 8, 10, 12, 14]; CON = [2, 3, 2, 0, 1, 2, 1]; CON2 = [2, 3, 1, 0, 2, 3, 1]
+PROG = [(40, [64, 67, 71], [76, 79, 83, 88]), (36, [60, 64, 67], [72, 76, 79, 84]),
+        (43, [59, 62, 67], [79, 83, 86, 91]), (38, [62, 66, 69], [74, 78, 81, 86])]
+RH = [0, 2, 5, 8, 10, 13, 14]; CON = [1, 3, 2, 3, 1, 0, 2]; CON2 = [1, 2, 3, 2, 0, 1, 3]
 def make(total, seed=1):
     rng = np.random.default_rng(seed); n = int(total * SR)
     mel = np.zeros(n); low = np.zeros(n); dr = np.zeros(n); pad = np.zeros(n); kk = np.zeros(n)
     e8 = 60 / BPM / 2; s16 = e8 / 2; bar = 8 * e8; k = 0
     while k * bar < total - 0.3:
         t0 = k * bar; root, ch, arp = PROG[k % 4]; con = CON if (k // 4) % 2 == 0 else CON2
-        put(pad, chord(ch, bar * 0.98), t0, 0.5)
+        put(pad, chord(ch, bar * 0.98), t0, 0.35)
         for st, c in zip(RH, con):
-            put(mel, marimba(arp[c], 0.45, 0.8 + 0.2 * (st % 4 == 0)), t0 + st * s16, 0.30)
+            put(mel, marimba(arp[c], 0.45, 0.8 + 0.2 * (st % 4 == 0)), t0 + st * s16, 0.42)
         put(low, bass(root, e8 * 2.6, 1.0), t0, 0.55)
         put(low, bass(root, e8 * 1.5, 0.8), t0 + 3 * e8, 0.45)
         put(low, bass(root + (7 if k % 2 else 0), e8 * 1.4, 0.8), t0 + 6 * e8, 0.40)
@@ -56,7 +56,7 @@ def make(total, seed=1):
         k += 1
     duck = 1 - 0.6 * np.minimum(1, filt(kk, 18, "low", 1) * 6)       # 側鏈壓縮
     ir = rng.standard_normal(int(0.9 * SR)) * np.exp(-np.arange(int(0.9 * SR)) / SR * 6); ir = filt(ir, 4000)
-    wet = fftconvolve(mel, ir)[:n] * 0.05
+    wet = fftconvolve(mel, ir)[:n] * 0.03
     x = (pad * 0.55 * np.clip(duck, 0.3, 1)) + mel + wet + low + dr * 0.9
     x = np.tanh(x * 1.2) / 1.2
     fi = int(0.2 * SR); fo = int(1.2 * SR); x[:fi] *= np.linspace(0, 1, fi); x[-fo:] *= np.linspace(1, 0, fo)
