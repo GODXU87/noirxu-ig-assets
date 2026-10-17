@@ -1,64 +1,71 @@
-"""NOIRXU Reels 配樂 v3：日式商務風——留白、柔軟鋼琴 + 箏撥弦 + 暖 pad，無鼓。
-音階：平調子（Hirajoshi）D E F A Bb。python3 -I reel_music.py IN_DIR OUT_DIR"""
+"""NOIRXU Reels 配樂 v4：明亮流行律動（原創，非任何現有歌曲）——
+馬林巴 riff + 彈性貝斯 + 切分鼓組，96 BPM，C-G-Am-F。python3 -I reel_music.py IN_DIR OUT_DIR"""
 import sys, os, subprocess, numpy as np
 from scipy.io import wavfile
 from scipy.signal import butter, lfilter, fftconvolve
-SR = 44100
+SR = 44100; BPM = 96
 def mf(m): return 440.0 * 2 ** ((m - 69) / 12)
-def lp(x, fc, o=2): b, a = butter(o, fc / (SR / 2), "low"); return lfilter(b, a, x)
-def piano(m, dur, vel=1.0):
-    """柔軟（felt）鋼琴：低泛音為主，緩衰減。"""
+def filt(x, fc, kind="low", o=2): b, a = butter(o, fc / (SR / 2), kind); return lfilter(b, a, x)
+def marimba(m, dur=0.5, vel=1.0):
     f = mf(m); t = np.arange(int(dur * SR)) / SR
-    s = sum(a * np.sin(2 * np.pi * f * k * (1 + 0.0004 * k * k) * t) * np.exp(-t * (1.1 + 0.9 * k)) for k, a in ((1, 1), (2, .42), (3, .16), (4, .07)))
-    return s * np.minimum(1, t / 0.006) * np.minimum(1, (dur - t) / 0.2) * vel
-def koto(m, dur=3.2, vel=1.0, seed=0):
-    """Karplus-Strong 撥弦，近似箏。"""
-    f = mf(m); n = int(dur * SR); N = int(SR / f); rng = np.random.default_rng(seed)
-    buf = rng.uniform(-1, 1, N); buf = lp(buf, 6000, 1); out = np.zeros(n)
-    for i in range(n):
-        out[i] = buf[i % N]
-        buf[i % N] = 0.4985 * (buf[i % N] + buf[(i + 1) % N])
-    return out * vel * np.minimum(1, (dur * SR - np.arange(n)) / (0.3 * SR))
-def pad(total, notes):
-    t = np.arange(int(total * SR)) / SR; sig = np.zeros_like(t)
-    for k, m in enumerate(notes):
-        f = mf(m); lfo = 0.55 + 0.45 * np.sin(2 * np.pi * (0.045 + 0.02 * k) * t + k * 1.7)
-        sig += (np.sin(2 * np.pi * f * t) + 0.5 * np.sin(2 * np.pi * f * 1.003 * t)) * lfo
-    return lp(sig / len(notes), 1400)
+    s = np.sin(2*np.pi*f*t)*np.exp(-t*7) + 0.35*np.sin(2*np.pi*f*4*t)*np.exp(-t*22) + 0.08*np.sin(2*np.pi*f*10*t)*np.exp(-t*60)
+    return s * np.minimum(1, t / 0.002) * vel
+def bass(m, dur=0.4, vel=1.0):
+    f = mf(m); t = np.arange(int(dur * SR)) / SR
+    s = (np.sin(2*np.pi*f*t) + 0.3*np.sin(4*np.pi*f*t)) * np.exp(-t*5.5)
+    return s * np.minimum(1, t / 0.004) * np.minimum(1, (dur - t) / 0.03) * vel
+def chord(ms, dur):
+    t = np.arange(int(dur * SR)) / SR; s = np.zeros_like(t)
+    for m in ms:
+        f = mf(m); s += np.sin(2*np.pi*f*t) + 0.4*np.sin(2*np.pi*f*1.004*t) + 0.2*np.sin(4*np.pi*f*t)
+    return filt(s / len(ms), 2200) * np.minimum(1, t / 0.02) * np.minimum(1, (dur - t) / 0.05)
+def kick():
+    t = np.arange(int(0.28 * SR)) / SR
+    return np.sin(2*np.pi*(46*t + 90*(1-np.exp(-t*45))/45)) * np.exp(-t*13)
+def clap(rng):
+    t = np.arange(int(0.2 * SR)) / SR; n = filt(rng.standard_normal(len(t)), 1100, "high")
+    env = sum(np.exp(-np.maximum(t - d, 0) * 40) * (t >= d) for d in (0, 0.011, 0.022)) * 0.5 + np.exp(-t * 18) * 0.5
+    return n * env * 0.7
+def hat(rng, o=False):
+    t = np.arange(int((0.16 if o else 0.04) * SR)) / SR
+    return filt(rng.standard_normal(len(t)), 7000, "high") * np.exp(-t * (22 if o else 90))
 def put(buf, s, t0, g):
     i = int(t0 * SR)
     if i >= len(buf): return
     e = min(len(buf), i + len(s)); buf[i:e] += s[:e - i] * g
-SCALE = [62, 64, 65, 69, 70, 74, 76, 77, 81]   # D E F A Bb 上下八度
-PHR = [  # 每句 (拍位, 音) 以秒為單位，刻意留白
-    [(0.0, 74), (1.5, 70), (3.0, 69)],
-    [(0.5, 77), (2.0, 74), (4.0, 65)],
-    [(0.0, 69), (1.8, 70), (3.2, 74)],
-    [(1.0, 76), (3.0, 70)],
-]
-def make(total, seed=5):
+PROG = [(48, [60, 64, 67], [72, 76, 79, 84]), (43, [59, 62, 67], [67, 71, 74, 79]),
+        (45, [57, 60, 64], [69, 72, 76, 81]), (41, [57, 60, 65], [69, 72, 77, 81])]
+RH = [0, 3, 6, 8, 10, 12, 14]; CON = [2, 3, 2, 0, 1, 2, 1]; CON2 = [2, 3, 1, 0, 2, 3, 1]
+def make(total, seed=1):
     rng = np.random.default_rng(seed); n = int(total * SR)
-    keys = np.zeros(n); bar = 5.6; k = 0
-    while k * bar < total - 0.8:
-        t0 = k * bar
-        put(keys, piano(38 if k % 2 == 0 else 34, bar * 1.05, 0.9), t0, 0.30)          # D2 / Bb1 低音 ——穩
-        put(keys, piano(50 if k % 2 == 0 else 46, bar * 0.9, 0.7), t0 + 0.03, 0.12)
-        for dt, m in PHR[k % 4]:
-            put(keys, piano(m, 3.4, 0.8), t0 + dt + float(rng.uniform(-0.04, 0.04)), 0.17)
-        if k % 2 == 1:
-            put(keys, koto(float(rng.choice(SCALE)) + 12, 3.2, 1.0, k), t0 + 2.6, 0.20)
+    mel = np.zeros(n); low = np.zeros(n); dr = np.zeros(n); pad = np.zeros(n); kk = np.zeros(n)
+    e8 = 60 / BPM / 2; s16 = e8 / 2; bar = 8 * e8; k = 0
+    while k * bar < total - 0.3:
+        t0 = k * bar; root, ch, arp = PROG[k % 4]; con = CON if (k // 4) % 2 == 0 else CON2
+        put(pad, chord(ch, bar * 0.98), t0, 0.5)
+        for st, c in zip(RH, con):
+            put(mel, marimba(arp[c], 0.45, 0.8 + 0.2 * (st % 4 == 0)), t0 + st * s16, 0.30)
+        put(low, bass(root, e8 * 2.6, 1.0), t0, 0.55)
+        put(low, bass(root, e8 * 1.5, 0.8), t0 + 3 * e8, 0.45)
+        put(low, bass(root + (7 if k % 2 else 0), e8 * 1.4, 0.8), t0 + 6 * e8, 0.40)
+        for ke in (0, 3, 6):
+            put(dr, kick(), t0 + ke * e8, 0.75); put(kk, np.ones(int(0.18 * SR)), t0 + ke * e8, 1.0)
+        put(dr, clap(rng), t0 + 4 * e8, 0.45); put(dr, clap(rng), t0 + 7 * e8 + s16, 0.12)
+        for s in range(16):
+            put(dr, hat(rng, s % 8 == 6), t0 + s * s16 + (0.012 if s % 2 else 0), 0.10 if s % 4 else 0.15)
         k += 1
-    ped = pad(total, [38, 45, 50, 57, 62]) * 0.22
-    ir_n = int(2.6 * SR); ir = rng.standard_normal(ir_n) * np.exp(-np.arange(ir_n) / SR * 1.9); ir = lp(ir, 3000)
-    wet = fftconvolve(keys, ir)[:n] * 0.045
-    x = lp(keys + wet, 6500) + ped
-    fi = int(0.8 * SR); fo = int(2.0 * SR); x[:fi] *= np.linspace(0, 1, fi); x[-fo:] *= np.linspace(1, 0, fo)
-    return x / (np.max(np.abs(x)) + 1e-9) * 0.55
+    duck = 1 - 0.6 * np.minimum(1, filt(kk, 18, "low", 1) * 6)       # 側鏈壓縮
+    ir = rng.standard_normal(int(0.9 * SR)) * np.exp(-np.arange(int(0.9 * SR)) / SR * 6); ir = filt(ir, 4000)
+    wet = fftconvolve(mel, ir)[:n] * 0.05
+    x = (pad * 0.55 * np.clip(duck, 0.3, 1)) + mel + wet + low + dr * 0.9
+    x = np.tanh(x * 1.2) / 1.2
+    fi = int(0.2 * SR); fo = int(1.2 * SR); x[:fi] *= np.linspace(0, 1, fi); x[-fo:] *= np.linspace(1, 0, fo)
+    return x / (np.max(np.abs(x)) + 1e-9) * 0.7
 if __name__ == "__main__":
     src, dst = sys.argv[1], sys.argv[2]; os.makedirs(dst, exist_ok=True)
     for i, fn in enumerate(sorted(f for f in os.listdir(src) if f.endswith(".mp4"))):
         d = float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",os.path.join(src,fn)]))
         wav = os.path.join(dst, fn[:-4] + ".wav")
-        wavfile.write(wav, SR, (make(d, 5 + i) * 32767).astype(np.int16))
-        subprocess.check_call(["ffmpeg","-v","error","-y","-i",os.path.join(src,fn),"-i",wav,"-c:v","copy","-af","loudnorm=I=-18:TP=-2:LRA=7","-ar","44100","-c:a","aac","-b:a","192k","-shortest",os.path.join(dst,fn)])
+        wavfile.write(wav, SR, (make(d, 1 + i) * 32767).astype(np.int16))
+        subprocess.check_call(["ffmpeg","-v","error","-y","-i",os.path.join(src,fn),"-i",wav,"-af","loudnorm=I=-16:TP=-1.5:LRA=7","-ar","44100","-c:v","copy","-c:a","aac","-b:a","192k","-shortest",os.path.join(dst,fn)])
         os.remove(wav); print(fn, round(d,1))
