@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOIRXU 複利帳本｜停一次，少多少？</title>
+<meta name="description" content="定期定額 30 年試算表：停扣成本、晚開始代價、里程碑、實際紀錄。Excel 與 Google 試算表都能用。情境試算，非投資建議。">
+<meta property="og:title" content="NOIRXU 複利帳本｜停一次，少多少？">
+<meta property="og:description" content="把你的 30 年算清楚。停扣成本、晚開始代價、里程碑，一份試算表看完。">
+<meta property="og:image" content="https://raw.githubusercontent.com/GODXU87/noirxu-ig-assets/main/shop/img/prev_grid.jpg">
+<meta name="theme-color" content="#F3F3F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet">
+<style>
+  /* ====== 只需要改這裡 ====== */
+  /* 結帳連結在下方 <script> 的 CONFIG */
+  :root{--paper:#F3F3F3;--paper2:#E8E8E8;--ink:#202020;--gray:#6E6E6E;--hair:#D4D4D4;--bar:#B9B9B9;--black:#0E0E0E}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:var(--ink);font:300 16px/1.75 "Noto Sans TC",system-ui,sans-serif;letter-spacing:.04em}
+  .serif{font-family:"Noto Serif TC",serif}
+  a{color:inherit}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid var(--ink);padding:22px 0 16px}
+  header .wrap{display:flex;justify-content:space-between;align-items:baseline}
+  .brand{font-weight:400;letter-spacing:.42em;font-size:14px}
+  .tag{color:var(--gray);font-size:12px;letter-spacing:.2em}
+  section{padding:64px 0;border-bottom:1px solid var(--hair)}
+  .kicker{font-weight:400;font-size:13px;letter-spacing:.32em;margin-bottom:18px}
+  h1{font-family:"Noto Serif TC",serif;font-weight:300;font-size:clamp(38px,8.6vw,64px);line-height:1.25;letter-spacing:.08em}
+  h2{font-family:"Noto Serif TC",serif;font-weight:300;font-size:clamp(28px,6vw,40px);line-height:1.35;letter-spacing:.06em;margin-bottom:22px}
+  .lead{color:var(--gray);margin-top:22px;font-size:17px}
+  .rule{width:56px;height:3px;background:#000;margin:30px 0}
+  .price{display:flex;align-items:baseline;gap:10px;margin:30px 0 8px}
+  .price b{font-family:"Noto Serif TC",serif;font-weight:300;font-size:56px;letter-spacing:.02em}
+  .price span{color:var(--gray);font-size:14px}
+  .btn{display:block;width:100%;text-align:center;text-decoration:none;padding:18px 20px;font-size:17px;letter-spacing:.24em;font-weight:400;border:1px solid var(--ink);transition:opacity .15s}
+  .btn:active{opacity:.7}
+  .btn.primary{background:var(--black);color:#F2F2F2}
+  .btn.ghost{background:transparent;color:var(--ink);margin-top:12px}
+  .note{color:var(--gray);font-size:13px;margin-top:12px}
+  /* 計算器 */
+  .calc{background:#fff;border:1px solid var(--hair);padding:24px}
+  .row{display:grid;grid-template-columns:1fr 132px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--hair)}
+  .row label{font-size:15px}
+  .row input,.row select{width:100%;font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--hair);background:var(--paper);color:var(--ink);text-align:right;border-radius:0;-webkit-appearance:none}
+  .out{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:22px;border-top:1px solid var(--ink)}
+  .out div{padding:16px 0 6px}
+  .out small{display:block;color:var(--gray);font-size:13px;letter-spacing:.12em}
+  .out b{font-family:"Noto Serif TC",serif;font-weight:300;font-size:34px}
+  .out b.hi{font-weight:500}
+  .out i{font-style:normal;font-size:14px;margin-left:4px}
+  .bars{margin-top:18px}
+  .bars .b{height:10px;background:var(--bar);margin:6px 0 2px}
+  .bars .b.k{background:var(--ink)}
+  .bars p{font-size:12px;color:var(--gray)}
+  /* 清單 */
+  ol.list{list-style:none;counter-reset:n}
+  ol.list li{counter-increment:n;display:grid;grid-template-columns:52px 1fr;padding:18px 0;border-top:1px solid var(--hair)}
+  ol.list li:last-child{border-bottom:1px solid var(--hair)}
+  ol.list li::before{content:counter(n,decimal-leading-zero);font-family:"Noto Serif TC",serif;font-size:22px;color:var(--gray)}
+  ol.list b{font-weight:400;display:block;font-size:17px}
+  ol.list span{color:var(--gray);font-size:14px}
+  figure{margin:28px 0 0}
+  figure img{width:100%;display:block;border:1px solid var(--hair);background:#fff}
+  figcaption{color:var(--gray);font-size:13px;margin-top:8px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dark{background:var(--black);color:#F2F2F2;border:0}
+  .dark .lead,.dark .note{color:#A6A6A6}
+  .dark .btn.primary{background:#F2F2F2;color:var(--black);border-color:#F2F2F2}
+  details{border-top:1px solid var(--hair);padding:16px 0}
+  details:last-of-type{border-bottom:1px solid var(--hair)}
+  summary{cursor:pointer;font-size:16px;font-weight:400;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"＋";float:right;color:var(--gray)}
+  details[open] summary::after{content:"－"}
+  details p{color:var(--gray);font-size:15px;margin-top:10px}
+  footer{padding:40px 0 60px;color:var(--gray);font-size:12px}
+  .sticky{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(243,243,243,.96);border-top:1px solid var(--hair);transform:translateY(110%);transition:transform .25s}
+  .sticky.on{transform:none}
+  .sticky .btn{max-width:728px;margin:0 auto;padding:14px}
+  @media (max-width:420px){.row{grid-template-columns:1fr 112px}.out b{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="brand">NOIRXU</span><span class="tag">金錢日誌</span></div></header>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">NOIRXU 複利帳本</p>
+    <h1>停一次，<br>少多少？</h1>
+    <p class="lead">每月 1 萬、年化 6%，第 11 年停 2 年：終點少 <b class="serif" style="color:#000;font-weight:500">72.5 萬</b>。<br>但只少投了 24 萬本金。其餘，是少掉的複利。</p>
+    <div class="rule"></div>
+    <p>先用下面的小工具算你自己的數字。<br>想要完整的逐月表、年度方陣、里程碑與每月紀錄，再帶走試算表。</p>
+  </div>
+</section>
+
+<section id="calc">
+  <div class="wrap">
+    <p class="kicker">先算你的</p>
+    <h2>停扣成本試算</h2>
+    <div class="calc" role="group" aria-label="停扣成本試算">
+      <div class="row"><label for="pmt">每月投入（元）</label><input id="pmt" type="number" inputmode="numeric" value="10000" min="0" step="1000"></div>
+      <div class="row"><label for="r">年化報酬（%）</label><input id="r" type="number" inputmode="decimal" value="6" min="0" max="20" step="0.5"></div>
+      <div class="row"><label for="n">投資年數</label><input id="n" type="number" inputmode="numeric" value="30" min="1" max="50"></div>
+      <div class="row"><label for="s0">從第幾年開始停</label><input id="s0" type="number" inputmode="numeric" value="11" min="1" max="50"></div>
+      <div class="row"><label for="k">停幾年</label><input id="k" type="number" inputmode="numeric" value="2" min="0" max="50"></div>
+      <div class="out" aria-live="polite">
+        <div><small>一直投 終值</small><b id="oA">-</b><i>萬</i></div>
+        <div><small>有停扣 終值</small><b id="oB">-</b><i>萬</i></div>
+        <div><small>終點少掉</small><b id="oG" class="hi">-</b><i>萬</i></div>
+        <div><small>其中少投的本金</small><b id="oP">-</b><i>萬</i></div>
+      </div>
+      <div class="bars" aria-hidden="true">
+        <div class="b k" id="bA"></div><p>一直投</p>
+        <div class="b" id="bB"></div><p>有停扣（長條從 0 起算）</p>
+      </div>
+    </div>
+    <p class="note">按月複利、每月先計息再投入；不含手續費與稅。情境試算，非投資建議。報酬更低或中斷更久，結果會不同。</p>
+  </div>
+</section>
+
+<section id="buy">
+  <div class="wrap">
+    <p class="kicker">完整版</p>
+    <h2>NOIRXU 複利帳本</h2>
+    <p>一份試算表，改黃色格子就好。Excel、Google 試算表、Numbers 都能開。</p>
+    <ol class="list" style="margin-top:26px">
+      <li><div><b>試算</b><span>一直投、中途停扣、晚開始，三種情境並排比較，自動算出差距與百分比。</span></div></li>
+      <li><div><b>里程碑</b><span>第 1 個 100 萬要幾個月？之後每個 100 萬越來越快，表上一眼看到。</span></div></li>
+      <li><div><b>逐月表</b><span>最長 50 年、600 個月的投入與餘額，每一格都是公式，可以自己驗算。</span></div></li>
+      <li><div><b>年度方陣</b><span>一格一個月，黑格投入、白格停扣。看得見自己哪幾年斷掉。</span></div></li>
+      <li><div><b>實際紀錄</b><span>每月填投入與市值，自動算累計本金、帳面報酬，並和計畫比較。</span></div></li>
+    </ol>
+    <figure><img src="https://raw.githubusercontent.com/GODXU87/noirxu-ig-assets/main/shop/img/prev_calc.jpg" alt="試算分頁：三種情境結果與里程碑表" loading="lazy" width="968" height="947"><figcaption>試算分頁：三種情境與里程碑</figcaption></figure>
+    <figure><img src="https://raw.githubusercontent.com/GODXU87/noirxu-ig-assets/main/shop/img/prev_grid.jpg" alt="年度方陣：黑格為有投入，白格為停扣" loading="lazy" width="968" height="982"><figcaption>年度方陣：第 11、12 年停扣</figcaption></figure>
+    <div class="price"><b>NT$290</b><span>一次買斷・付款後自動寄送檔案</span></div>
+    <a class="btn primary js-buy" href="#soon">取得複利帳本</a>
+    <p class="note">情境試算工具，不是投資建議；不推薦任何標的，也不保證報酬。</p>
+  </div>
+</section>
+
+<section class="dark" id="free">
+  <div class="wrap">
+    <p class="kicker">免費</p>
+    <h2>停扣成本速查表</h2>
+    <p class="lead" style="margin-top:0">停 1、2、3、5 年，停在前期、中期、後期，各少多少？晚 1 到 10 年開始又差多少？兩頁 PDF，留 Email 就寄給你。</p>
+    <div class="two" style="margin:26px 0">
+      <img src="https://raw.githubusercontent.com/GODXU87/noirxu-ig-assets/main/shop/img/cheatsheet_1.jpg" alt="速查表第 1 頁：停多久、停在哪，少多少" loading="lazy" width="1080" height="1350" style="width:100%">
+      <img src="https://raw.githubusercontent.com/GODXU87/noirxu-ig-assets/main/shop/img/cheatsheet_2.jpg" alt="速查表第 2 頁：晚幾年開始，終點少多少" loading="lazy" width="1080" height="1350" style="width:100%">
+    </div>
+    <a class="btn primary js-free" href="#soon">免費索取速查表</a>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>常見問題</h2>
+    <details><summary>需要會 Excel 嗎？</summary><p>不用。只改黃色格子，其他都會自動算。手機也能用 Google 試算表 App 開。</p></details>
+    <details><summary>數字怎麼來的？</summary><p>全部是公式：月報酬率＝(1＋年化)^(1/12)－1，每月先計息再投入。逐月表每一格都看得到算式，可以自己驗算。</p></details>
+    <details><summary>會告訴我買哪一檔嗎？</summary><p>不會。這是試算工具，不推薦任何標的，也不提供買賣點。</p></details>
+    <details><summary>付款後怎麼拿到檔案？</summary><p>付款完成後，平台會自動寄下載連結到你的 Email。沒收到請先看垃圾郵件，或私訊 IG <a href="https://www.instagram.com/yoru_stocklab/">@yoru_stocklab</a>。</p></details>
+    <details><summary>可以分享給朋友嗎？</summary><p>檔案限購買者個人使用，請勿轉售或公開分享。想推薦朋友，傳這個頁面給他就好。</p></details>
+  </div>
+</section>
+
+<section id="soon" style="border-bottom:0;display:none">
+  <div class="wrap">
+    <h2>即將開賣</h2>
+    <p>結帳頁準備中。想第一個拿到，私訊 IG <a href="https://www.instagram.com/yoru_stocklab/">@yoru_stocklab</a>，留下「帳本」兩個字。</p>
+  </div>
+</section>
+
+<footer><div class="wrap">© NOIRXU　金錢日誌｜所有內容為情境試算，非投資建議。報酬更低或中斷更久，結論會不同。</div></footer>
+
+<div class="sticky" id="sticky"><a class="btn primary js-buy" href="#soon">取得複利帳本　NT$290</a></div>
+
+<script>
+/* ====== 收款平台建好後，把連結貼進來（留空＝顯示「即將開賣」） ====== */
+var CONFIG = {
+  checkout: "",   // 付費商品結帳連結，例如 https://portaly.cc/xxx 或 https://xxx.gumroad.com/l/ledger
+  free: ""        // 免費速查表連結（留 Email 的頁面）
+};
+
+(function(){
+  function wire(sel, url){
+    document.querySelectorAll(sel).forEach(function(a){
+      if(url){a.href=url;a.target="_blank";a.rel="noopener";}
+      else{a.addEventListener("click",function(){document.getElementById("soon").style.display="block";});}
+    });
+  }
+  wire(".js-buy", CONFIG.checkout); wire(".js-free", CONFIG.free);
+
+  function fv(pmt, r, n, s0, k){
+    var m = Math.pow(1 + r, 1/12) - 1, b = 0, paid = 0;
+    for (var i = 1; i <= n*12; i++){
+      b *= 1 + m;
+      var y = Math.floor((i-1)/12) + 1;
+      if (!(k > 0 && y >= s0 && y < s0 + k)) { b += pmt; paid += pmt; }
+    }
+    return [b, paid];
+  }
+  function num(id, lo, hi){var v=parseFloat(document.getElementById(id).value);if(isNaN(v))v=0;return Math.min(hi,Math.max(lo,v));}
+  function f1(x){return (x/10000).toLocaleString("zh-TW",{minimumFractionDigits:1,maximumFractionDigits:1});}
+  function run(){
+    var pmt=num("pmt",0,1e8), r=num("r",0,30)/100, n=Math.round(num("n",1,50)), s0=Math.round(num("s0",1,50)), k=Math.round(num("k",0,50));
+    var A=fv(pmt,r,n,s0,0), B=fv(pmt,r,n,s0,k);
+    document.getElementById("oA").textContent=f1(A[0]);
+    document.getElementById("oB").textContent=f1(B[0]);
+    document.getElementById("oG").textContent=f1(A[0]-B[0]);
+    document.getElementById("oP").textContent=f1(A[1]-B[1]);
+    var mx=Math.max(A[0],1);
+    document.getElementById("bA").style.width="100%";
+    document.getElementById("bB").style.width=(100*B[0]/mx)+"%";
+  }
+  document.querySelectorAll(".calc input").forEach(function(el){el.addEventListener("input",run);});
+  run();
+
+  var st=document.getElementById("sticky"), buy=document.getElementById("buy");
+  function onScroll(){
+    var r=buy.getBoundingClientRect();
+    var show = window.scrollY > 500 && !(r.top < window.innerHeight && r.bottom > 0);
+    st.classList.toggle("on", show);
+  }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>
