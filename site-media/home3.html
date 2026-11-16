@@ -9,7 +9,7 @@
 .bh .ey{font-size:12px;letter-spacing:3px;color:var(--accent)}
 .bh .go{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);display:grid;place-items:center;flex:none;transition:background-color .25s ease,color .25s ease}
 /* hero */
-.bh .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,56px);padding-top:clamp(40px,7vw,96px)}
+.bh .hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:clamp(24px,4vw,56px);padding-top:clamp(40px,7vw,96px)}
 .bh .hero::before{content:"";position:absolute;right:-10%;top:-20%;width:70%;height:120%;background:radial-gradient(closest-side,rgba(212,80,63,.18),transparent 70%);pointer-events:none}
 .bh .mark{display:flex;align-items:center;gap:14px;margin-bottom:26px}
 .bh .mark img{width:44px;height:44px;display:block}
@@ -30,6 +30,8 @@
 .bh .s-a{left:0;top:8%;transform:rotate(-6deg);z-index:1}
 .bh .s-b{right:0;top:0;transform:rotate(4deg);z-index:2}
 .bh .s-c{left:14%;bottom:0;transform:rotate(-1deg);z-index:3}
+.bh .nx{width:clamp(120px,24vw,320px);height:auto;display:block;position:relative;animation:bh-fade 1.6s ease-out .35s both}
+@keyframes bh-fade{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 /* topics */
 .bh .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(56px,7vw,96px)}
 .bh .cd{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:200px;padding:24px;border-radius:24px;background:var(--s1);border:1px solid var(--line);transition:border-color .25s ease,transform .25s ease}
@@ -97,8 +99,6 @@
 .bh .c{transform-box:fill-box;transform-origin:bottom;animation:bh-grow .45s ease-out both}
 .bh .p{transform-box:fill-box;transform-origin:center;animation:bh-pop .35s ease-out both}
 @media (max-width:900px){
- .bh .hero{grid-template-columns:1fr}
- .bh .stack{height:clamp(240px,62vw,380px);margin-top:8px}
  .bh .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
  .bh .posts{grid-template-columns:1fr}
  .bh .po{flex-direction:row}
@@ -107,7 +107,8 @@
 @media (max-width:600px){
  .bh .w{padding-left:4px;padding-right:4px}
  .bh h1{font-size:clamp(28px,8.6vw,36px)}
- .bh .mark{margin-bottom:18px}
+ .bh .hero{gap:12px;align-items:start}
+ .bh .nx{width:72px}
  .bh .nums{gap:8px 24px;margin-top:24px}
  .bh .cd{min-height:0;padding:18px;gap:16px}
  .bh .cd svg.ill{max-height:60px}
@@ -124,7 +125,6 @@
 
 <div class="w hero">
  <div>
-  <div class="mark rv"><img src="https://assets.zyrosite.com/WRsC9UHWTrIk8h31/18d316e6-2730-4fa6-aab9-11d1776e68a3-Tz4mYXwF32igcypW.png" alt="NOIRXU 標誌" width="44" height="44"><span>NOIRXU</span></div>
   <h1><span class="rv" style="animation-delay:.1s">理財、交易、</span><span class="rv" style="animation-delay:.25s">工作、生活。</span></h1>
   <p class="sub rv" style="animation-delay:.4s">我把自己在用的方法，做成工具和筆記。</p>
   <div class="nums rv" style="animation-delay:.55s">
@@ -133,11 +133,7 @@
    <div><b>6.6 萬</b><small>短片最高觀看</small></div>
   </div>
  </div>
- <div class="stack" aria-hidden="true">
-  <div class="shot s-a"><div class="bar"><i></i><i></i><i></i><span>NOIRXU LEDGER</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a10.34.48-z4oMwzgLBotxlHEz.png" alt=""></div>
-  <div class="shot s-b"><div class="bar"><i></i><i></i><i></i><span>NOIRXU TERMINAL</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-terminal-hxzAtFPGZENLO9Lp.jpg" alt=""></div>
-  <div class="shot s-c"><div class="bar"><i></i><i></i><i></i><span>林口橫衝</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-linkou-S3kgA6M7icVKfHH8.jpg" alt=""></div>
- </div>
+ <img class="nx" src="https://assets.zyrosite.com/WRsC9UHWTrIk8h31/18d316e6-2730-4fa6-aab9-11d1776e68a3-Tz4mYXwF32igcypW.png" alt="NOIRXU 標誌" width="300" height="300">
 </div>
 
 <div class="w">
