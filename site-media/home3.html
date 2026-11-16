@@ -1,0 +1,187 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@300;400;500;700&display=swap">
+<style>
+.bh{--bg:#0D0D0D;--s1:#151514;--s2:#1D1D1B;--line:#272725;--ink:#F3F0EA;--muted:#9C998F;--accent:#D4503F;background:var(--bg);color:var(--ink);font-family:'Chiron GoRound TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+.bh *{box-sizing:border-box}
+.bh a{color:var(--ink);text-decoration:none}
+.bh a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:14px}
+.bh .w{max-width:1200px;margin:0 auto;padding-left:clamp(20px,5vw,56px);padding-right:clamp(20px,5vw,56px)}
+.bh .ey{font-size:12px;letter-spacing:3px;color:var(--accent)}
+.bh .go{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);display:grid;place-items:center;flex:none;transition:background-color .25s ease,color .25s ease}
+/* hero */
+.bh .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,56px);padding-top:clamp(40px,7vw,96px)}
+.bh .hero::before{content:"";position:absolute;right:-10%;top:-20%;width:70%;height:120%;background:radial-gradient(closest-side,rgba(212,80,63,.18),transparent 70%);pointer-events:none}
+.bh .mark{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.bh .mark img{width:44px;height:44px;display:block}
+.bh .mark span{font-size:12px;letter-spacing:4px;color:var(--muted)}
+.bh h1{margin:0;font-weight:500;font-size:clamp(36px,6vw,72px);line-height:1.18;letter-spacing:.01em}
+.bh h1 span{display:block;white-space:nowrap}
+.bh .sub{margin:22px 0 0;font-size:clamp(15px,1.4vw,18px);line-height:1.8;color:var(--muted)}
+.bh .nums{display:flex;flex-wrap:wrap;gap:10px 36px;margin-top:34px}
+.bh .nums div{display:flex;align-items:baseline;gap:8px}
+.bh .nums b{font-weight:300;font-size:clamp(30px,3.4vw,42px);line-height:1}
+.bh .nums small{font-size:13px;color:var(--muted)}
+.bh .stack{position:relative;height:clamp(300px,36vw,440px)}
+.bh .shot{position:absolute;width:76%;border-radius:16px;overflow:hidden;background:#151514;border:1px solid #2e2e2b;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.bh .shot .bar{height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid #262624;background:#1a1a19}
+.bh .shot .bar i{width:8px;height:8px;border-radius:50%;background:#3a3a37}
+.bh .shot .bar span{margin-left:8px;font-size:10px;letter-spacing:2px;color:#77746D}
+.bh .shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover}
+.bh .s-a{left:0;top:8%;transform:rotate(-6deg);z-index:1}
+.bh .s-b{right:0;top:0;transform:rotate(4deg);z-index:2}
+.bh .s-c{left:14%;bottom:0;transform:rotate(-1deg);z-index:3}
+/* topics */
+.bh .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(56px,7vw,96px)}
+.bh .cd{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:200px;padding:24px;border-radius:24px;background:var(--s1);border:1px solid var(--line);transition:border-color .25s ease,transform .25s ease}
+.bh .cd:hover{border-color:#3A3A37;transform:translateY(-3px)}
+.bh .cd:hover .go{background:var(--ink);color:#0D0D0D}
+.bh .cd .top{display:flex;justify-content:space-between;align-items:flex-start}
+.bh .cd b{display:block;font-weight:500;font-size:clamp(20px,2vw,24px);letter-spacing:1px;margin-top:6px}
+.bh .cd small{display:block;margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted)}
+.bh .cd svg.ill{display:block;width:100%;height:auto;max-height:90px}
+/* section head */
+.bh .sec{padding-top:clamp(64px,8vw,104px)}
+.bh .sh-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:20px}
+.bh .sh-head b{display:block;font-weight:500;font-size:clamp(24px,2.6vw,32px);margin-top:8px}
+.bh .more{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--muted)}
+.bh .more:hover{color:var(--ink)}
+/* works marquee */
+.bh .mq{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.bh .mq-in{display:flex;gap:16px;width:max-content;animation:bh-mq 60s linear infinite}
+.bh .mq:hover .mq-in{animation-play-state:paused}
+.bh .wk{display:block;width:300px;flex:none}
+.bh .wk .pic{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--s2)}
+.bh .wk img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .5s ease}
+.bh .wk:hover img{transform:scale(1.04)}
+.bh .wk b{display:block;margin-top:12px;font-weight:500;font-size:15px}
+.bh .wk small{display:block;margin-top:2px;font-size:12px;letter-spacing:2px;color:var(--muted)}
+/* posts */
+.bh .posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.bh .po{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--s1);border:1px solid var(--line);transition:border-color .25s ease,transform .25s ease}
+.bh .po:hover{border-color:#3A3A37;transform:translateY(-3px)}
+.bh .po img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover}
+.bh .po div{padding:18px 20px 22px}
+.bh .po b{display:block;margin-top:8px;font-weight:500;font-size:16px;line-height:1.55}
+/* shorts */
+.bh .sv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:760px}
+.bh .vd{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:var(--s2);border:1px solid var(--line)}
+.bh .vd img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.bh .vd:hover img{transform:scale(1.04)}
+.bh .vd::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.8))}
+.bh .vd .pb{position:absolute;left:14px;top:14px;width:36px;height:36px;border-radius:999px;background:rgba(243,240,234,.92);color:#0D0D0D;display:grid;place-items:center;z-index:1}
+.bh .vd span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;font-size:13px;line-height:1.5}
+.bh .vd small{display:block;color:#C9C5BC;font-size:11px;margin-top:2px}
+/* footer */
+.bh footer{margin-top:clamp(64px,8vw,104px)}
+.bh footer .w{padding-top:36px;padding-bottom:32px;display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line)}
+.bh footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.bh footer nav{display:flex;flex-wrap:wrap;gap:4px 28px;font-size:13px;letter-spacing:2px}
+.bh footer nav a{min-height:44px;display:inline-flex;align-items:center}
+.bh footer p{margin:0;font-size:13px;line-height:1.9;color:var(--muted)}
+.bh footer small{font-size:12px;letter-spacing:2px;color:var(--muted)}
+/* motion */
+@keyframes bh-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes bh-in-a{from{opacity:0;transform:translate(-30px,20px) rotate(-12deg)}to{opacity:1;transform:rotate(-6deg)}}
+@keyframes bh-in-b{from{opacity:0;transform:translate(30px,-10px) rotate(10deg)}to{opacity:1;transform:rotate(4deg)}}
+@keyframes bh-in-c{from{opacity:0;transform:translateY(40px) rotate(-1deg)}to{opacity:1;transform:rotate(-1deg)}}
+@keyframes bh-float{50%{translate:0 -8px}}
+@keyframes bh-mq{to{transform:translateX(-50%)}}
+@keyframes bh-draw{to{stroke-dashoffset:0}}
+@keyframes bh-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes bh-pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.bh .rv{animation:bh-up .8s cubic-bezier(.2,.7,.2,1) both}
+.bh .s-a{animation:bh-in-a 1s cubic-bezier(.2,.7,.2,1) .4s both,bh-float 7s ease-in-out 1.6s infinite}
+.bh .s-b{animation:bh-in-b 1s cubic-bezier(.2,.7,.2,1) .6s both,bh-float 8s ease-in-out 2s infinite}
+.bh .s-c{animation:bh-in-c 1s cubic-bezier(.2,.7,.2,1) .8s both,bh-float 6s ease-in-out 2.4s infinite}
+.bh .ln{stroke-dasharray:240;stroke-dashoffset:240;animation:bh-draw 1.6s ease-out 1.2s forwards}
+.bh .c{transform-box:fill-box;transform-origin:bottom;animation:bh-grow .45s ease-out both}
+.bh .p{transform-box:fill-box;transform-origin:center;animation:bh-pop .35s ease-out both}
+@media (max-width:900px){
+ .bh .hero{grid-template-columns:1fr}
+ .bh .stack{height:clamp(240px,62vw,380px);margin-top:8px}
+ .bh .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bh .posts{grid-template-columns:1fr}
+ .bh .po{flex-direction:row}
+ .bh .po img{width:42%;aspect-ratio:auto;min-height:100%}
+}
+@media (max-width:600px){
+ .bh .w{padding-left:4px;padding-right:4px}
+ .bh h1{font-size:clamp(28px,8.6vw,36px)}
+ .bh .mark{margin-bottom:18px}
+ .bh .nums{gap:8px 24px;margin-top:24px}
+ .bh .cd{min-height:0;padding:18px;gap:16px}
+ .bh .cd svg.ill{max-height:60px}
+ .bh .wk{width:220px}
+ .bh .po{flex-direction:column}
+ .bh .po img{width:100%;aspect-ratio:2/1;min-height:0}
+ .bh .sv{gap:8px}
+ .bh .vd .pb{width:28px;height:28px;left:8px;top:8px}
+ .bh .vd span{font-size:11px;left:8px;right:8px}
+}
+@media (prefers-reduced-motion:reduce){.bh *{animation:none!important;transition:none!important}.bh .ln{stroke-dashoffset:0}}
+</style>
+<div class="bh">
+
+<div class="w hero">
+ <div>
+  <div class="mark rv"><img src="https://assets.zyrosite.com/WRsC9UHWTrIk8h31/18d316e6-2730-4fa6-aab9-11d1776e68a3-Tz4mYXwF32igcypW.png" alt="NOIRXU 標誌" width="44" height="44"><span>NOIRXU</span></div>
+  <h1><span class="rv" style="animation-delay:.1s">理財、交易、</span><span class="rv" style="animation-delay:.25s">工作、生活。</span></h1>
+  <p class="sub rv" style="animation-delay:.4s">我把自己在用的方法，做成工具和筆記。</p>
+  <div class="nums rv" style="animation-delay:.55s">
+   <div><b>17</b><small>個網站與工具</small></div>
+   <div><b>17</b><small>篇文章</small></div>
+   <div><b>6.6 萬</b><small>短片最高觀看</small></div>
+  </div>
+ </div>
+ <div class="stack" aria-hidden="true">
+  <div class="shot s-a"><div class="bar"><i></i><i></i><i></i><span>NOIRXU LEDGER</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a10.34.48-z4oMwzgLBotxlHEz.png" alt=""></div>
+  <div class="shot s-b"><div class="bar"><i></i><i></i><i></i><span>NOIRXU TERMINAL</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-terminal-hxzAtFPGZENLO9Lp.jpg" alt=""></div>
+  <div class="shot s-c"><div class="bar"><i></i><i></i><i></i><span>林口橫衝</span></div><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-linkou-S3kgA6M7icVKfHH8.jpg" alt=""></div>
+ </div>
+</div>
+
+<div class="w">
+ <div class="cards">
+  <a class="cd rv" style="animation-delay:.7s" href="https://noirxu.com/money" target="_top">
+   <div class="top"><div><span class="ey">01</span><b>MONEY</b><small>理財筆記和 5 個計算器</small></div><span class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+   <svg class="ill" viewBox="0 0 240 90" aria-hidden="true"><line x1="0" y1="86" x2="240" y2="86" stroke="#272725"/><polyline class="ln" points="6,80 44,74 82,64 120,52 158,38 196,22 232,6" fill="none" stroke="#F3F0EA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle class="p" cx="232" cy="6" r="5" fill="#D4503F" style="animation-delay:2.6s"/></svg>
+  </a>
+  <a class="cd rv" style="animation-delay:.8s" href="https://noirxu.com/stock" target="_top">
+   <div class="top"><div><span class="ey">02</span><b>STOCK</b><small>交易紀錄、復盤和看盤工具</small></div><span class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+   <svg class="ill" viewBox="0 0 240 90" aria-hidden="true"><g stroke="#9C998F" stroke-width="1.5"><line x1="22" y1="40" x2="22" y2="84"/><line x1="60" y1="30" x2="60" y2="76"/><line x1="98" y1="44" x2="98" y2="86"/><line x1="136" y1="20" x2="136" y2="66"/><line x1="174" y1="12" x2="174" y2="54"/><line x1="212" y1="4" x2="212" y2="44"/></g><rect class="c" x="13" y="50" width="18" height="24" rx="2" fill="#F3F0EA" style="animation-delay:1.2s"/><rect class="c" x="51" y="38" width="18" height="26" rx="2" fill="#F3F0EA" style="animation-delay:1.35s"/><rect class="c" x="89" y="52" width="18" height="22" rx="2" fill="#D4503F" style="animation-delay:1.5s"/><rect class="c" x="127" y="28" width="18" height="26" rx="2" fill="#F3F0EA" style="animation-delay:1.65s"/><rect class="c" x="165" y="20" width="18" height="22" rx="2" fill="#F3F0EA" style="animation-delay:1.8s"/><rect class="c" x="203" y="10" width="18" height="24" rx="2" fill="#F3F0EA" style="animation-delay:1.95s"/></svg>
+  </a>
+  <a class="cd rv" style="animation-delay:.9s" href="https://noirxu.com/work" target="_top">
+   <div class="top"><div><span class="ey">03</span><b>WORK</b><small>工作流程和教學工具</small></div><span class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+   <svg class="ill" viewBox="0 0 240 90" aria-hidden="true"><g stroke="#3A3A37" stroke-width="8" stroke-linecap="round"><line x1="60" y1="14" x2="200" y2="14"/><line x1="60" y1="44" x2="170" y2="44"/><line x1="60" y1="74" x2="190" y2="74"/></g><polyline class="p" points="16,14 24,22 38,6" fill="none" stroke="#D4503F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation-delay:1.6s"/><polyline class="p" points="16,44 24,52 38,36" fill="none" stroke="#D4503F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation-delay:1.9s"/><rect x="14" y="62" width="24" height="24" rx="7" fill="none" stroke="#45453F" stroke-width="2"/></svg>
+  </a>
+  <a class="cd rv" style="animation-delay:1s" href="https://noirxu.com/noirxu-life" target="_top">
+   <div class="top"><div><span class="ey">04</span><b>LIFE</b><small>遊戲、日文和旅行</small></div><span class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+   <svg class="ill" viewBox="0 0 240 90" aria-hidden="true"><g fill="#1E1E1C" stroke="#2E2E2B"><rect x="8" y="10" width="64" height="64" rx="16"/><rect x="88" y="10" width="64" height="64" rx="16"/><rect x="168" y="10" width="64" height="64" rx="16"/></g><circle class="p" cx="40" cy="42" r="12" fill="#D4503F" style="animation-delay:1.5s"/><path class="p" d="M112 30 L134 42 L112 54Z" fill="#F3F0EA" style="animation-delay:1.7s"/><rect class="p" x="188" y="30" width="24" height="24" rx="5" fill="#F3F0EA" style="animation-delay:1.9s"/></svg>
+  </a>
+ </div>
+
+ <div class="sec">
+  <div class="sh-head"><div><span class="ey">PROJECTS</span><b>做過的網站和工具</b></div><a class="more" href="https://noirxu.com/projects" target="_top">全部作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+ </div>
+</div>
+<div class="mq"><div class="mq-in"><a class="wk" href="https://noirxu.com/noirxu-ledger" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a10.34.48-z4oMwzgLBotxlHEz.png" alt="NOIRXU LEDGER 畫面" loading="lazy"></div><b>NOIRXU LEDGER</b><small>記帳</small></a><a class="wk" href="https://noirxu.com/noirxu-noirxu-radar" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/jie-tu-2026-09-28-wan-shang-9.17.32-PEulPotsIsthU7PW.png" alt="NOIRXU RADAR 畫面" loading="lazy"></div><b>NOIRXU RADAR</b><small>台股觀察</small></a><a class="wk" href="https://noirxu.com/noirxu-trading-journal" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a8.49.06-OcXnotPnSKF1zCDx.png" alt="TRADING JOURNAL 畫面" loading="lazy"></div><b>TRADING JOURNAL</b><small>交易復盤</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-terminal-hxzAtFPGZENLO9Lp.jpg" alt="NOIRXU TERMINAL 畫面" loading="lazy"></div><b>NOIRXU TERMINAL</b><small>看盤</small></a><a class="wk" href="https://noirxu.com/linkou-rush-web-game" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-linkou-S3kgA6M7icVKfHH8.jpg" alt="林口橫衝 畫面" loading="lazy"></div><b>林口橫衝</b><small>網頁遊戲</small></a><a class="wk" href="https://noirxu.com/hatchet-boy-lesson-game" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-hatchet-7QGVe8dJsco7BnjF.jpg" alt="手斧男孩 畫面" loading="lazy"></div><b>手斧男孩</b><small>課文闖關</small></a><a class="wk" href="https://noirxu.com/x-classroom-board" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-xclass-y7LrugJM0SFxQrVO.jpg" alt="X Classroom 畫面" loading="lazy"></div><b>X Classroom</b><small>電子黑板</small></a><a class="wk" href="https://noirxu.com/film-lab-photo-filters" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-filmlab-7SXipLoDwNu2eSKU.jpg" alt="Film Lab 畫面" loading="lazy"></div><b>Film Lab</b><small>照片濾鏡</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-translate-WyOTtM4P9lc8QAOa.jpg" alt="LIVE TRANSLATE 畫面" loading="lazy"></div><b>LIVE TRANSLATE</b><small>即時翻譯</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-calendar-vSOaWnjMykBbg0rg.jpg" alt="NOIRXU Calendar 畫面" loading="lazy"></div><b>NOIRXU Calendar</b><small>時間管理</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-table-SALwuGoiQCWJIp2E.jpg" alt="NOIRXU TABLE 畫面" loading="lazy"></div><b>NOIRXU TABLE</b><small>餐廳評價</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-photo-vcoEN0D9lhSOT7bG.jpg" alt="NOIRXU PHOTO 畫面" loading="lazy"></div><b>NOIRXU PHOTO</b><small>夜空攝影</small></a><a class="wk" href="https://noirxu.com/noirxu-ledger" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a10.34.48-z4oMwzgLBotxlHEz.png" alt="" loading="lazy"></div><b>NOIRXU LEDGER</b><small>記帳</small></a><a class="wk" href="https://noirxu.com/noirxu-noirxu-radar" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/jie-tu-2026-09-28-wan-shang-9.17.32-PEulPotsIsthU7PW.png" alt="" loading="lazy"></div><b>NOIRXU RADAR</b><small>台股觀察</small></a><a class="wk" href="https://noirxu.com/noirxu-trading-journal" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/aeaa-2026-09-21-a-a8.49.06-OcXnotPnSKF1zCDx.png" alt="" loading="lazy"></div><b>TRADING JOURNAL</b><small>交易復盤</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-terminal-hxzAtFPGZENLO9Lp.jpg" alt="" loading="lazy"></div><b>NOIRXU TERMINAL</b><small>看盤</small></a><a class="wk" href="https://noirxu.com/linkou-rush-web-game" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-linkou-S3kgA6M7icVKfHH8.jpg" alt="" loading="lazy"></div><b>林口橫衝</b><small>網頁遊戲</small></a><a class="wk" href="https://noirxu.com/hatchet-boy-lesson-game" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-hatchet-7QGVe8dJsco7BnjF.jpg" alt="" loading="lazy"></div><b>手斧男孩</b><small>課文闖關</small></a><a class="wk" href="https://noirxu.com/x-classroom-board" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-xclass-y7LrugJM0SFxQrVO.jpg" alt="" loading="lazy"></div><b>X Classroom</b><small>電子黑板</small></a><a class="wk" href="https://noirxu.com/film-lab-photo-filters" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-filmlab-7SXipLoDwNu2eSKU.jpg" alt="" loading="lazy"></div><b>Film Lab</b><small>照片濾鏡</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-translate-WyOTtM4P9lc8QAOa.jpg" alt="" loading="lazy"></div><b>LIVE TRANSLATE</b><small>即時翻譯</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-calendar-vSOaWnjMykBbg0rg.jpg" alt="" loading="lazy"></div><b>NOIRXU Calendar</b><small>時間管理</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-table-SALwuGoiQCWJIp2E.jpg" alt="" loading="lazy"></div><b>NOIRXU TABLE</b><small>餐廳評價</small></a><a class="wk" href="https://noirxu.com/noirxu-private-tools" target="_top" tabindex="-1" aria-hidden="true"><div class="pic"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-shots-photo-vcoEN0D9lhSOT7bG.jpg" alt="" loading="lazy"></div><b>NOIRXU PHOTO</b><small>夜空攝影</small></a></div></div>
+
+<div class="w">
+ <div class="sec">
+  <div class="sh-head"><div><span class="ey">JOURNAL</span><b>最新文章</b></div><a class="more" href="https://noirxu.com/noirxu-journal" target="_top">全部文章 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  <div class="posts"><a class="po" href="https://noirxu.com/pokemon-go-shiny-guide" target="_top"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-covers-shiny-rHMalw10qKg6q6hA.jpg" alt="" loading="lazy"><div><span class="ey">PLAY</span><b>Pokémon GO 異色寶可夢：機率、在哪裡遇到、怎麼整理</b></div></a><a class="po" href="https://noirxu.com/dca-pause-cost" target="_top"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-covers-pause-lJuAugfBWmiGtX5A.jpg" alt="" loading="lazy"><div><span class="ey">MONEY</span><b>定期定額停 2 年，終點少多少？</b></div></a><a class="po" href="https://noirxu.com/linkou-rush-web-game" target="_top"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=800,fit=crop/WRsC9UHWTrIk8h31/noirxu-covers-linkou-HI63xf0RH1RNk1kb.jpg" alt="" loading="lazy"><div><span class="ey">PLAY</span><b>林口橫衝：我做了一款在林口飆車的網頁遊戲</b></div></a></div>
+ </div>
+
+ <div class="sec">
+  <div class="sh-head"><div><span class="ey">SHORTS</span><b>短影音</b></div><a class="more" href="https://www.youtube.com/@NOIRXUStudio/shorts" target="_blank" rel="noopener">NOIRXU Studio <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
+  <div class="sv"><a class="vd" href="https://www.youtube.com/shorts/_cJFznVrxr0" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/_cJFznVrxr0/oardefault.jpg" alt="" loading="lazy"><span class="pb"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span>燕尾服貓的聰明陷阱<small>6.6 萬次觀看</small></span></a><a class="vd" href="https://www.youtube.com/shorts/5ys7Xd2BL3A" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/5ys7Xd2BL3A/oardefault.jpg" alt="" loading="lazy"><span class="pb"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span>三隻貓對一隻老鼠<small>1.9 萬次觀看</small></span></a><a class="vd" href="https://www.youtube.com/shorts/258OQ3e5DCc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/258OQ3e5DCc/oardefault.jpg" alt="" loading="lazy"><span class="pb"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span>虎斑貓的偷襲陷阱<small>9,036 次觀看</small></span></a></div>
+ </div>
+</div>
+
+<footer><div class="w">
+ <div class="row"><span style="font-weight:700;font-size:18px;letter-spacing:4px">NOIRXU</span>
+ <nav aria-label="頁尾選單"><a href="https://noirxu.com/noirxu-life" target="_top">LIFE</a><a href="https://noirxu.com/money" target="_top">MONEY</a><a href="https://noirxu.com/stock" target="_top">STOCK</a><a href="https://noirxu.com/work" target="_top">WORK</a><a href="https://noirxu.com/noirxu-journal" target="_top">JOURNAL</a><a href="https://noirxu.com/projects" target="_top">PROJECTS</a></nav></div>
+ <p>內容與計算器僅供參考與情境試算，不構成投資建議。</p>
+ <small>© 2026 NOIRXU</small>
+</div></footer>
+</div>
